@@ -372,6 +372,7 @@ type Video {
   speakerCount(where: SpeakerWhereInput! = {}): Int
   language: Language
   videoType: VideoType
+  videoStatus: VideoStatus
   gcpStorageFileName: String
   gcpStorageBucketName: String
   bunnyStorageHlsUrl: String
@@ -398,6 +399,7 @@ input VideoWhereInput {
   speaker: SpeakerManyRelationFilter
   language: LanguageWhereInput
   videoType: VideoTypeWhereInput
+  videoStatus: VideoStatusWhereInput
   gcpStorageFileName: StringFilter
   gcpStorageBucketName: StringFilter
   bunnyStorageHlsUrl: StringFilter
@@ -442,6 +444,7 @@ input VideoUpdateInput {
   speaker: SpeakerRelateToManyForUpdateInput
   language: LanguageRelateToOneForUpdateInput
   videoType: VideoTypeRelateToOneForUpdateInput
+  videoStatus: VideoStatusRelateToOneForUpdateInput
   gcpStorageFileName: String
   gcpStorageBucketName: String
   bunnyStorageHlsUrl: String
@@ -474,6 +477,12 @@ input VideoTypeRelateToOneForUpdateInput {
   disconnect: Boolean
 }
 
+input VideoStatusRelateToOneForUpdateInput {
+  create: VideoStatusCreateInput
+  connect: VideoStatusWhereUniqueInput
+  disconnect: Boolean
+}
+
 input VideoUpdateArgs {
   where: VideoWhereUniqueInput!
   data: VideoUpdateInput!
@@ -487,6 +496,7 @@ input VideoCreateInput {
   speaker: SpeakerRelateToManyForCreateInput
   language: LanguageRelateToOneForCreateInput
   videoType: VideoTypeRelateToOneForCreateInput
+  videoStatus: VideoStatusRelateToOneForCreateInput
   gcpStorageFileName: String
   gcpStorageBucketName: String
   bunnyStorageHlsUrl: String
@@ -512,6 +522,47 @@ input LanguageRelateToOneForCreateInput {
 input VideoTypeRelateToOneForCreateInput {
   create: VideoTypeCreateInput
   connect: VideoTypeWhereUniqueInput
+}
+
+input VideoStatusRelateToOneForCreateInput {
+  create: VideoStatusCreateInput
+  connect: VideoStatusWhereUniqueInput
+}
+
+type VideoStatus {
+  id: ID!
+  videoStatusName: String
+}
+
+input VideoStatusWhereUniqueInput {
+  id: ID
+  videoStatusName: String
+}
+
+input VideoStatusWhereInput {
+  AND: [VideoStatusWhereInput!]
+  OR: [VideoStatusWhereInput!]
+  NOT: [VideoStatusWhereInput!]
+  id: IDFilter
+  videoStatusName: StringFilter
+}
+
+input VideoStatusOrderByInput {
+  id: OrderDirection
+  videoStatusName: OrderDirection
+}
+
+input VideoStatusUpdateInput {
+  videoStatusName: String
+}
+
+input VideoStatusUpdateArgs {
+  where: VideoStatusWhereUniqueInput!
+  data: VideoStatusUpdateInput!
+}
+
+input VideoStatusCreateInput {
+  videoStatusName: String
 }
 
 type Admin {
@@ -627,6 +678,12 @@ type Mutation {
   updateVideos(data: [VideoUpdateArgs!]!): [Video]
   deleteVideo(where: VideoWhereUniqueInput!): Video
   deleteVideos(where: [VideoWhereUniqueInput!]!): [Video]
+  createVideoStatus(data: VideoStatusCreateInput!): VideoStatus
+  createVideoStatuses(data: [VideoStatusCreateInput!]!): [VideoStatus]
+  updateVideoStatus(where: VideoStatusWhereUniqueInput!, data: VideoStatusUpdateInput!): VideoStatus
+  updateVideoStatuses(data: [VideoStatusUpdateArgs!]!): [VideoStatus]
+  deleteVideoStatus(where: VideoStatusWhereUniqueInput!): VideoStatus
+  deleteVideoStatuses(where: [VideoStatusWhereUniqueInput!]!): [VideoStatus]
   createAdmin(data: AdminCreateInput!): Admin
   createAdmins(data: [AdminCreateInput!]!): [Admin]
   updateAdmin(where: AdminWhereUniqueInput!, data: AdminUpdateInput!): Admin
@@ -670,6 +727,9 @@ type Query {
   videos(where: VideoWhereInput! = {}, orderBy: [VideoOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: VideoWhereUniqueInput): [Video!]
   video(where: VideoWhereUniqueInput!): Video
   videosCount(where: VideoWhereInput! = {}): Int
+  videoStatuses(where: VideoStatusWhereInput! = {}, orderBy: [VideoStatusOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: VideoStatusWhereUniqueInput): [VideoStatus!]
+  videoStatus(where: VideoStatusWhereUniqueInput!): VideoStatus
+  videoStatusesCount(where: VideoStatusWhereInput! = {}): Int
   admins(where: AdminWhereInput! = {}, orderBy: [AdminOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: AdminWhereUniqueInput): [Admin!]
   admin(where: AdminWhereUniqueInput!): Admin
   adminsCount(where: AdminWhereInput! = {}): Int

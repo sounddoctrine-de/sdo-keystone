@@ -62,28 +62,37 @@ model VideoType {
 }
 
 model Video {
-  id                       String     @id @default(cuid())
-  title                    String     @unique @default("")
-  description              String     @default("")
-  datePublished            DateTime   @postgresql.Date
-  channel                  Channel?   @relation("Video_channel", fields: [channelId], references: [id])
-  channelId                String?    @map("channel")
-  speaker                  Speaker[]  @relation("Video_speaker")
-  language                 Language?  @relation("Video_language", fields: [languageId], references: [id])
-  languageId               String?    @map("language")
-  videoType                VideoType? @relation("Video_videoType", fields: [videoTypeId], references: [id])
-  videoTypeId              String?    @map("videoType")
-  gcpStorageFileName       String     @default("")
-  gcpStorageBucketName     String     @default("")
-  bunnyStorageHlsUrl       String     @default("")
-  thumbnailUrl             String     @default("")
-  urlSlug                  String     @default("")
-  from_User_likedVideos    User[]     @relation("User_likedVideos")
-  from_User_dislikedVideos User[]     @relation("User_dislikedVideos")
+  id                       String       @id @default(cuid())
+  title                    String       @unique @default("")
+  description              String       @default("")
+  datePublished            DateTime     @postgresql.Date
+  channel                  Channel?     @relation("Video_channel", fields: [channelId], references: [id])
+  channelId                String?      @map("channel")
+  speaker                  Speaker[]    @relation("Video_speaker")
+  language                 Language?    @relation("Video_language", fields: [languageId], references: [id])
+  languageId               String?      @map("language")
+  videoType                VideoType?   @relation("Video_videoType", fields: [videoTypeId], references: [id])
+  videoTypeId              String?      @map("videoType")
+  videoStatus              VideoStatus? @relation("Video_videoStatus", fields: [videoStatusId], references: [id])
+  videoStatusId            String?      @map("videoStatus")
+  gcpStorageFileName       String       @default("")
+  gcpStorageBucketName     String       @default("")
+  bunnyStorageHlsUrl       String       @default("")
+  thumbnailUrl             String       @default("")
+  urlSlug                  String       @default("")
+  from_User_likedVideos    User[]       @relation("User_likedVideos")
+  from_User_dislikedVideos User[]       @relation("User_dislikedVideos")
 
   @@index([channelId])
   @@index([languageId])
   @@index([videoTypeId])
+  @@index([videoStatusId])
+}
+
+model VideoStatus {
+  id                     String  @id @default(cuid())
+  videoStatusName        String  @unique @default("")
+  from_Video_videoStatus Video[] @relation("Video_videoStatus")
 }
 
 model Admin {

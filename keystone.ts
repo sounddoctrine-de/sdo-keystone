@@ -8,6 +8,7 @@ import { speakerConfig } from './src/modules/speaker';
 import { userConfig } from './src/modules/user';
 import { videoConfig } from './src/modules/video';
 import { videoTypeConfig } from './src/modules/videoType';
+import { videoStatusConfig } from './src/modules/videoStatus';
 import { adminConfig } from './src/modules/admin';
 import * as dotenv from 'dotenv';
 
@@ -21,6 +22,7 @@ const lists = {
   User: userConfig,
   VideoType: videoTypeConfig,
   Video: videoConfig,
+  VideoStatus: videoStatusConfig,
   Admin: adminConfig,
 };
 

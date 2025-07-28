@@ -39,6 +39,13 @@ export let videoConfig: ListConfig<BaseListTypeInfo, any> = list({
         validateInput: validateForAtleastOneRelatedItem,
       }
     }),
+    videoStatus: relationship({
+      ref: 'VideoStatus',
+      many: false,
+      hooks: {
+        validateInput: validateForAtleastOneRelatedItem,
+      }
+    }),
     gcpStorageFileName: text({ validation: { isRequired: false } }),
     gcpStorageBucketName: text({ validation: { isRequired: false } }),
     bunnyStorageHlsUrl: text({ validation: { isRequired: false } }),
